@@ -1,3 +1,4 @@
+"use client";
 import Socials from "@/components/Social";
 import { Button } from "../components/ui/button";
 import { FiDownload } from "react-icons/fi";
@@ -5,23 +6,30 @@ import Photo from "@/components/Photo";
 import Stats from "@/components/Stats";
 
 const Home = () => {
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/ArjunSaravanakumar.pdf"; 
+    link.download = "ArjunSaravanakumar.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <section className="h-full">
       <div className="container mx-auto h-full">
         <div className="flex flex-col xl:flex-row items-center justify-between xl:pt-8 xl:pb-24">
           <div className="text-center xl:text-left order-2 xl:order-none">
-            <span className="text-xl">Associate Software Engineer</span>
+            <span className="text-xl">Software Engineer</span>
             <h1 className="h1 mb-6">
               Hello I'm <br /> <span className="text-accent">Arjun Saravanan</span>
             </h1>
             <p className="max-w-[500px] mb-9 text-white/80">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a type 
-            specimen book.
+            Dynamic Software Tester with expertise in automation frameworks, debugging, and delivering flawless applications. 
+            Passionate about creating efficient testing solutions and collaborating to build exceptional software.
             </p>
             <div className="flex flex-col xl:flex-row items-center gap-8">
               <Button
+                onClick={handleDownload}
                 variant = "outline"
                 size = "lg"
                 className="uppercase flex items-center gap-2 hover:transistion-all duration-500"
