@@ -9,7 +9,7 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"],
   variable: "--font-jetbrainsMono" });
 
 export const metadata = {
-  title: "Arjun",
+  title: "Arjun Saravanakumar",
   description: "Portfolio by Arjun Saravanakumar",
 };
 
