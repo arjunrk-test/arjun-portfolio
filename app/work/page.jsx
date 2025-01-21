@@ -15,7 +15,7 @@ const projects = [
         num: "01",
         category: "automation framework",
         title: "Java-Selenium-Automation",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        description: "Developed a robust automation framework using Java and Selenium, tailored for both web and API testing. The framework includes features like data-driven testing, reusable components, and detailed reporting also optimized for cross-browser compatibility. ",
         stack: [{name: "Java"}, {name: "Selenium"}, {name: "Maven"}, {name: "TestNG"}],
         image: "/assets/work/auto1.png",
         live: "",
@@ -25,7 +25,7 @@ const projects = [
         num: "02",
         category: "portfolio",
         title: "Portfolio",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        description: "Created a dynamic and responsive portfolio website using Next.js, React, and JavaScript. Styled with Tailwind CSS for a clean, modern design. Focused on performance, user experience, and scalability.",
         stack: [{name: "NextJS"}, {name: "ReactJS"}, {name: "Tailwind CSS"}],
         image: "/assets/work/port1.png",
         live: "",
@@ -45,7 +45,7 @@ const Work = () => {
     return (
         <motion.section
             initial = {{opacity: 0}}
-            animate = {{opacity: 1, transition: {delay: 1.2, duration: 0.4, ease: "easeIn"}}}
+            animate = {{opacity: 1, transition: {delay: 2, duration: 0.4, ease: "easeIn"}}}
             className = "min-h-[80vh] flex flex-col justify-center py-12 xl:px-0"
         >
             <div className="container mx-auto">
