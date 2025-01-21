@@ -7,25 +7,25 @@ const services = [
     {
         num: '01',
         title: 'Manual Testing',
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        description: "Experienced in manual testing with a proven track record of designing test scenarios, executing test cases, and identifying critical bugs.",
         href: "",
     },
     {
         num: '02',
         title: 'Automation Testing',
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        description: "Proficient in automation testing using Java,  Selenium and TestNG and have done automation for more than 200 scenarios.",
         href: "",
     },
     {
         num: '03',
         title: 'Framework Development',
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        description: "Skilled in automation and in developing robust automation frameworks using Java and Selenium, optimized for web and API testing.",
         href: "",
     },
     {
         num: '04',
         title: 'API Testing',
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        description: "Experienced in API testing with expertise in validating endpoints, ensuring functionality, and automating tests for efficient integration",
         href: "",
     },
 ];
