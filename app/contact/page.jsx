@@ -5,80 +5,108 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkedAlt } from "react-icons/fa";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import emailjs from 'emailjs-com';
+import { motion, AnimatePresence } from "framer-motion";
+import emailjs from "emailjs-com";
 
 // Info for displaying contact details
 const info = [
     {
         icon: <FaPhoneAlt />,
-        title: 'Phone',
-        description: '(+91) 8072734996'
+        title: "Phone",
+        description: "(+91) 8072734996",
     },
     {
         icon: <FaEnvelope />,
-        title: 'Email',
-        description: 'arjun.rksaravanan@gmail.com'
+        title: "Email",
+        description: "arjun.rksaravanan@gmail.com",
     },
     {
         icon: <FaMapMarkedAlt />,
-        title: 'Address',
-        description: 'Perungudi, Chennai, TamilNadu, INDIA - 600096'
-    }
+        title: "Address",
+        description: "Perungudi, Chennai, TamilNadu, INDIA - 600096",
+    },
 ];
 
+// Reusable Alert Component
+const Alert = ({ message, type, onClose }) => {
+    const alertStyles = {
+        success: "bg-accent text-black",
+        error: "bg-red-500 text-black",
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className={`fixed top-5 right-5 z-50 p-4 rounded-lg shadow-lg ${alertStyles[type]}`}
+        >
+            <div className="flex justify-between items-center gap-4">
+                <span>{message}</span>
+                <button
+                    className="text-white bg-black/20 px-2 py-1 rounded-md hover:bg-black/40 transition"
+                    onClick={onClose}
+                >
+                    Close
+                </button>
+            </div>
+        </motion.div>
+    );
+};
+
 const Contact = () => {
-    // State for form fields and submission status
     const [formData, setFormData] = useState({
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        service: '',
-        message: '',
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone: "",
+        service: "",
+        message: "",
     });
 
-    const [isSubmitting, setIsSubmitting] = useState(false);  // To handle submit state (loading, etc.)
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [alert, setAlert] = useState({ show: false, message: "", type: "" });
 
-    // Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        setIsSubmitting(true); // Disable form while submitting
+        setIsSubmitting(true);
 
         try {
-            // Send email using EmailJS
-            const result = await emailjs.send(
-                'service_yc5nxzg',      // EmailJS service ID
-                'template_wibud2l',     // EmailJS template ID
-                formData,               // Form data to send
-                'lwyNWyU9GzwI-8rwc'     // EmailJS user ID (found in your EmailJS account)
+            await emailjs.send(
+                "service_yc5nxzg",
+                "template_wibud2l",
+                formData,
+                "lwyNWyU9GzwI-8rwc"
             );
-            console.log(result.text);
 
-            // If successful, reset form fields
             setFormData({
-                firstname: '',
-                lastname: '',
-                email: '',
-                phone: '',
-                service: '',
-                message: '',
+                firstname: "",
+                lastname: "",
+                email: "",
+                phone: "",
+                service: "",
+                message: "",
             });
 
-            alert("Message sent successfully!");
-
+            setAlert({
+                show: true,
+                message: "Message sent successfully!",
+                type: "success",
+            });
         } catch (error) {
             console.error("Error sending message:", error);
-            alert("Something went wrong. Please try again later.");
+            setAlert({
+                show: true,
+                message: "Something went wrong. Please try again later.",
+                type: "error",
+            });
         } finally {
-            setIsSubmitting(false); // Re-enable the form after submission
+            setIsSubmitting(false);
         }
     };
 
@@ -87,7 +115,7 @@ const Contact = () => {
             initial={{ opacity: 0 }}
             animate={{
                 opacity: 1,
-                transition: { delay: 2, duration: 0.4, ease: "easeIn" },
+                transition: { delay: 0.2, duration: 0.4, ease: "easeIn" },
             }}
             className="py-6"
         >
@@ -95,13 +123,19 @@ const Contact = () => {
                 <div className="flex flex-col xl:flex-row gap-[30px]">
                     {/* form */}
                     <div className="xl:h-[54%] order-2 xl:order-none">
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl">
-                            <h3 className="text-4xl text-accent">Let&apos;s work together</h3>
+                        <form
+                            onSubmit={handleSubmit}
+                            className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl"
+                        >
+                            <h3 className="text-4xl text-accent">
+                                Let&apos;s work together
+                            </h3>
                             <p className="text-white/60">
-                                Feel free to reach out if you have any questions, want to collaborate, or simply wish to connect.
-                                I&apos;m always open to discussing new ideas and opportunities!
+                                Feel free to reach out if you have any questions,
+                                want to collaborate, or simply wish to connect. I&apos;m
+                                always open to discussing new ideas and
+                                opportunities!
                             </p>
-                            {/* input fields */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <Input
                                     name="firstname"
@@ -109,7 +143,7 @@ const Contact = () => {
                                     onChange={handleChange}
                                     type="text"
                                     placeholder="Firstname"
-                                    disabled={isSubmitting} // Disable input during submission
+                                    disabled={isSubmitting}
                                 />
                                 <Input
                                     name="lastname"
@@ -117,7 +151,7 @@ const Contact = () => {
                                     onChange={handleChange}
                                     type="text"
                                     placeholder="Lastname"
-                                    disabled={isSubmitting} // Disable input during submission
+                                    disabled={isSubmitting}
                                 />
                                 <Input
                                     name="email"
@@ -125,7 +159,7 @@ const Contact = () => {
                                     onChange={handleChange}
                                     type="email"
                                     placeholder="Email address"
-                                    disabled={isSubmitting} // Disable input during submission
+                                    disabled={isSubmitting}
                                 />
                                 <Input
                                     name="phone"
@@ -133,38 +167,54 @@ const Contact = () => {
                                     onChange={handleChange}
                                     type="text"
                                     placeholder="Phone number"
-                                    disabled={isSubmitting} // Disable input during submission
+                                    disabled={isSubmitting}
                                 />
                             </div>
-
-                            {/* select */}
-                            <Select onValueChange={(value) => setFormData((prev) => ({ ...prev, service: value }))} value={formData.service} disabled={isSubmitting}>
+                            <Select
+                                onValueChange={(value) =>
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        service: value,
+                                    }))
+                                }
+                                value={formData.service}
+                                disabled={isSubmitting}
+                            >
                                 <SelectTrigger className="w-full">
-                                     <SelectValue placeholder="Select a service" />
+                                    <SelectValue placeholder="Select a service" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
                                         <SelectLabel>Select a service</SelectLabel>
-                                        <SelectItem value="Manual Testing">Manual Testing</SelectItem>
-                                        <SelectItem value="Automation Testing">Automation Testing</SelectItem>
-                                        <SelectItem value="Framework Development">Framework Development</SelectItem>
-                                        <SelectItem value="API Testing">API Testing</SelectItem>
+                                        <SelectItem value="Manual Testing">
+                                            Manual Testing
+                                        </SelectItem>
+                                        <SelectItem value="Automation Testing">
+                                            Automation Testing
+                                        </SelectItem>
+                                        <SelectItem value="Framework Development">
+                                            Framework Development
+                                        </SelectItem>
+                                        <SelectItem value="API Testing">
+                                            API Testing
+                                        </SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
-
-                            {/* message textarea */}
                             <Textarea
                                 name="message"
                                 value={formData.message}
                                 onChange={handleChange}
                                 className="h-[200px]"
                                 placeholder="Type your message here."
-                                disabled={isSubmitting} // Disable textarea during submission
+                                disabled={isSubmitting}
                             />
-
-                            {/* submit button */}
-                            <Button type="submit" size="md" className="max-w-40" disabled={isSubmitting}>
+                            <Button
+                                type="submit"
+                                size="md"
+                                className="max-w-40"
+                                disabled={isSubmitting}
+                            >
                                 {isSubmitting ? "Sending..." : "Send Message"}
                             </Button>
                         </form>
@@ -188,6 +238,19 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Alert */}
+            <AnimatePresence>
+                {alert.show && (
+                    <Alert
+                        message={alert.message}
+                        type={alert.type}
+                        onClose={() =>
+                            setAlert({ show: false, message: "", type: "" })
+                        }
+                    />
+                )}
+            </AnimatePresence>
         </motion.section>
     );
 };
