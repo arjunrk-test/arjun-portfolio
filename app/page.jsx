@@ -21,7 +21,7 @@ const Home = () => {
           <div className="text-center xl:text-left order-2 xl:order-none">
             <span className="text-xl">Software Engineer</span>
             <h1 className="h1 mb-6">
-              Hello I'm <br /> <span className="text-accent">Arjun Saravanan</span>
+              Hello I&apos;m <br /> <span className="text-accent">Arjun Saravanan</span>
             </h1>
             <p className="max-w-[500px] mb-9 text-white/80">
             Dynamic Software Tester with expertise in automation frameworks, debugging, and delivering flawless applications. 
