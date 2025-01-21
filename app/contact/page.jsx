@@ -28,7 +28,7 @@ const info = [
 ];
 
 const Contact = () => {
-    // State for form fields
+    // State for form fields and submission status
     const [formData, setFormData] = useState({
         firstname: '',
         lastname: '',
@@ -37,6 +37,8 @@ const Contact = () => {
         service: '',
         message: '',
     });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);  // To handle submit state (loading, etc.)
 
     // Handle input change
     const handleChange = (e) => {
@@ -48,19 +50,35 @@ const Contact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        setIsSubmitting(true); // Disable form while submitting
+
         try {
             // Send email using EmailJS
             const result = await emailjs.send(
                 'service_yc5nxzg',      // EmailJS service ID
                 'template_wibud2l',     // EmailJS template ID
                 formData,               // Form data to send
-                'lwyNWyU9GzwI-8rwc'          // EmailJS user ID (found in your EmailJS account)
+                'lwyNWyU9GzwI-8rwc'     // EmailJS user ID (found in your EmailJS account)
             );
             console.log(result.text);
+
+            // If successful, reset form fields
+            setFormData({
+                firstname: '',
+                lastname: '',
+                email: '',
+                phone: '',
+                service: '',
+                message: '',
+            });
+
             alert("Message sent successfully!");
+
         } catch (error) {
             console.error("Error sending message:", error);
             alert("Something went wrong. Please try again later.");
+        } finally {
+            setIsSubmitting(false); // Re-enable the form after submission
         }
     };
 
@@ -91,6 +109,7 @@ const Contact = () => {
                                     onChange={handleChange}
                                     type="text"
                                     placeholder="Firstname"
+                                    disabled={isSubmitting} // Disable input during submission
                                 />
                                 <Input
                                     name="lastname"
@@ -98,6 +117,7 @@ const Contact = () => {
                                     onChange={handleChange}
                                     type="text"
                                     placeholder="Lastname"
+                                    disabled={isSubmitting} // Disable input during submission
                                 />
                                 <Input
                                     name="email"
@@ -105,6 +125,7 @@ const Contact = () => {
                                     onChange={handleChange}
                                     type="email"
                                     placeholder="Email address"
+                                    disabled={isSubmitting} // Disable input during submission
                                 />
                                 <Input
                                     name="phone"
@@ -112,11 +133,12 @@ const Contact = () => {
                                     onChange={handleChange}
                                     type="text"
                                     placeholder="Phone number"
+                                    disabled={isSubmitting} // Disable input during submission
                                 />
                             </div>
-                            {/* select */}
 
-                            <Select onValueChange={(value) => setFormData((prev) => ({ ...prev, service: value }))} value={formData.service}>
+                            {/* select */}
+                            <Select onValueChange={(value) => setFormData((prev) => ({ ...prev, service: value }))} value={formData.service} disabled={isSubmitting}>
                                 <SelectTrigger className="w-full">
                                      <SelectValue placeholder="Select a service" />
                                 </SelectTrigger>
@@ -138,10 +160,12 @@ const Contact = () => {
                                 onChange={handleChange}
                                 className="h-[200px]"
                                 placeholder="Type your message here."
+                                disabled={isSubmitting} // Disable textarea during submission
                             />
+
                             {/* submit button */}
-                            <Button type="submit" size="md" className="max-w-40">
-                                Send Message
+                            <Button type="submit" size="md" className="max-w-40" disabled={isSubmitting}>
+                                {isSubmitting ? "Sending..." : "Send Message"}
                             </Button>
                         </form>
                     </div>
