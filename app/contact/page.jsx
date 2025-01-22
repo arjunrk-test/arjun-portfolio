@@ -75,7 +75,19 @@ const Contact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-
+    
+        // Validation: Check if all fields are filled
+        const isEmptyField = Object.values(formData).some((value) => !value.trim());
+        if (isEmptyField) {
+            setAlert({
+                show: true,
+                message: "Please fill out every field and try again.",
+                type: "error",
+            });
+            setIsSubmitting(false);
+            return;
+        }
+    
         try {
             await emailjs.send(
                 "service_yc5nxzg",
@@ -83,7 +95,7 @@ const Contact = () => {
                 formData,
                 "lwyNWyU9GzwI-8rwc"
             );
-
+    
             setFormData({
                 firstname: "",
                 lastname: "",
@@ -92,7 +104,7 @@ const Contact = () => {
                 service: "",
                 message: "",
             });
-
+    
             setAlert({
                 show: true,
                 message: "Message sent successfully!",
@@ -230,7 +242,7 @@ const Contact = () => {
                                     </div>
                                     <div className="flex-1">
                                         <p className="text-white/60">{item.title}</p>
-                                        <h3 className="text-xl">{item.description}</h3>
+                                        <h3 className="text-[16px]">{item.description}</h3>
                                     </div>
                                 </li>
                             ))}
